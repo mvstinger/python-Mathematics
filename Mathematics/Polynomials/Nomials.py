@@ -1,5 +1,5 @@
 from string import ascii_lowercase
-
+from numpy.random import randint
 
 
 def simplify(nomials):
@@ -55,6 +55,12 @@ def simplify(nomials):
 
 class Monomial(object):
     """Class to implement a monomial."""
+    @staticmethod
+    def random(var_count=randint(1, 5)):
+        """Return a random Monomial."""
+        return Monomial(randint(-10, 10), randint(-10, 10, var_count))
+    
+    
     #    CONSTRUCTOR
     def __init__(self, c, P):
         """Constructor for Monomial."""
