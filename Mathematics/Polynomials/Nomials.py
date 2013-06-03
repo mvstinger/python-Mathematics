@@ -93,8 +93,15 @@ class Monomial(object):
         if isinstance(other, Polynomial) and len(other.monomials)==1:
             other = other.monomials[0]
         if isinstance(other, Monomial):
-            if (self.coeff == other.coeff) and (self.powers == other.powers):
-                return True
+            try:
+                if (self.coeff == other.coeff) and (self.powers == other.powers):
+                    return True
+            except ValueError:
+                if (self.coeff == other.coeff) and all(self.powers == other.powers):
+                    return True
+            except err:
+                raise err
+        #    No exceptions and not equal
         return False
 
     def __ne__(self, other):

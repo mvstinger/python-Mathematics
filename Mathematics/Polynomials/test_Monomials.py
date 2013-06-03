@@ -35,6 +35,12 @@ class IsInstanceTest:
 
 
 
+def test_equality_zero_generator():
+    A_coeffs, A_powers, A_monos, _, _, _, _, _, _ = get_pairs_random_monomials(TEST_COUNT)
+    for test_idx in range(TEST_COUNT):
+        A_monos[test_idx].coeff = 0
+        yield IsEqualTest('Equality.Zero(%i)' % test_idx), A_monos[test_idx], 0
+
 def test_equality_identity_generator():
     A_coeffs, A_powers, A_monos, _, _, _, _, _, _ = get_pairs_random_monomials(TEST_COUNT)
     for test_idx in range(TEST_COUNT):
@@ -86,8 +92,6 @@ def test_multiplication_generator():
         M1 = Monomial.random(var_count=var_count)
         M2 = Monomial.random(var_count=var_count)
         yield IsEqualTest('Multiplication(%i)' % test_idx), M1 * M2, Monomial(M1.coeff * M2.coeff, M1.powers + M2.powers)
-#        print('%s * %s = %s' % (str(A_monos[test_idx]), str(B_monos[test_idx]), str(A_monos[test_idx] * B_monos[test_idx])))
-#        yield IsEqualTest('Multiplication(%i)' % test_idx), A_monos[test_idx] * B_monos[test_idx], Monomial(A_coeffs[test_idx] * B_coeffs[test_idx], A_powers[test_idx] + B_powers[test_idx])
     assert False
 
 def test_division_generator():    
@@ -102,70 +106,16 @@ def test_power_generator():
         if A_coeffs[test_idx] == 0:
             assert True 
         yield IsEqualTest('Power(%i)' % test_idx), A_monos[test_idx]**int_pwr, Monomial(A_coeffs[test_idx]**int_pwr, A_powers[test_idx]*int_pwr)
+
+def test_evaluate_zero_value():
+    A_coeffs, A_powers, A_monos, _, _, _, _, _, _ = get_pairs_random_monomials(TEST_COUNT)
+    for test_idx in range(TEST_COUNT):
+        A_vals = A_powers[test_idx] * 0
+        yield IsEqualTest('Evaluate.ZeroValue(%i)' % test_idx), A_mono.evaluate(A_vals), 0
+
+def A_coeffs, A_powers, A_monos, _, _, _, _, _, _ = get_pairs_random_monomials(TEST_COUNT)
+    for test_idx in range(TEST_COUNT):
+        A_monos[test_idx].powers = A_powers[test_idx] * 0
+        yield IsEqualTest('Evaluate.ZeroValue(%i)' % test_idx), A_mono.evaluate(A_vals), 0
+ 
     
-        
-#===============================================================================
-#             A = Monomial(1, [1, 2])
-#     B = Monomial(2, [1, 0])
-#     C = Monomial(3, [0, 1])
-#     D = Monomial(1, [0, 0])
-#     
-#     print("A = %s" % str(A))
-#     print("B = %s" % str(B))
-#     print("C = %s" % str(C))
-#     print("D = %s" % str(D))
-#     
-#     TF_str = lambda b: 'TRUE' if b else 'FALSE'
-#     
-#     print("A == A:  %s" % TF_str(A==A))
-#     print("A == B:  %s" % TF_str(A==B))
-#     print("A != A:  %s" % TF_str(A!=A))    
-#     
-#     P = A + A
-#     Q = A + B
-#     R = A + C
-#     
-#     print("P = A + A = %s" % str(P))
-#     print("Q = A + B = %s" % str(Q))
-#     print("R = A + C = %s" % str(R))
-#     print("A + 3 = %s" % str(A + Monomial(3, [0, 0])))
-#     print("3 + A = %s" % str(Monomial(3, [0, 0]) + A))
-# #     
-#     print("A * A = %s" % str(A * A))
-#     print("A**2 = %s" % str(A**2))
-#     print("A * A == A**2:  %s" % TF_str(A*A == A**2))
-#     print("A * B = %s" % str(A * B))
-#     print("C * D = %s" % str(C * D))
-#     print("3 * A = %s" % str(3 * A))
-#     print("A * 5 = %s" % str(A * 5))
-#     print("A / A = %s" % str(A / A))
-#     print("A / B = %s" % str(A / B))
-#     print("B / D = %s" % str(B / D))
-#     print("C / 3 = %s" % str(C / 3))
-#     print("Q**3 = %s" % str(Q**3))
-#     
-#     print("\n\n")
-#     S = Polynomial([Monomial(1, [0, 1]), Monomial(1, [0, 0])])
-#     T = Polynomial([Monomial(1, [0, 1]), Monomial(-1, [0, 0])])
-#     U = Polynomial([Monomial(1, [1, 0]), Monomial(1, [0, 1])])
-#     
-#     print("S = %s" % str(S))
-#     print("T = %s" % str(T))
-#     print("U = %s" % str(U))
-#      
-#     print("S * T = %s" % str(S * T))
-#     print("S * U = %s" % str(S * U))
-#     
-#     print("\n")
-#     print("Q(a, b) = %s" % str(Q))
-#     print("Q(1, 1) = %s" % str(Q.evaluate([1, 1])))
-#     print("Q(0, A) = %s" % str(Q.evaluate([0, A])))
-#     print("Q(1, A) = %s" % str(Q.evaluate([1, A])))
-#     
-#     
-#     
-#     
-#     
-# #     suite = unittest.TestLoader().loadTestsFromTestCase(TestSequenceFunctions)
-# #     unittest.TextTestRunner(verbosity=2).run(suite)
-#===============================================================================
